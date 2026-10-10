@@ -15,3 +15,6 @@ config.toml
 # Temporary files
 *.tmp
 results/*.prof
+
+# Quick-mode match output (smoke tests)
+results/match_quick/

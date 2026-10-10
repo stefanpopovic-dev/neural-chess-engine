@@ -1,0 +1,17 @@
+{
+  "engine_a": "nn-cache",
+  "engine_b": "material",
+  "time_limit": 0.5,
+  "max_plies": 200,
+  "early_stop": 1.0,
+  "openings": 50,
+  "nn_checkpoint": "models/nn_eval.pt",
+  "search": {
+    "time_limit": 1.0,
+    "max_depth": 64,
+    "quiescence": true,
+    "qsearch_max_depth": 8,
+    "check_interval": 16,
+    "early_stop_fraction": 1.0
+  }
+}

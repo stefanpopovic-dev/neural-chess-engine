@@ -1,0 +1,67 @@
+{
+  "engine_a": "nn-cache",
+  "engine_b": "material",
+  "wins": 73,
+  "draws": 21,
+  "losses": 6,
+  "games": 100,
+  "score": 0.835,
+  "elo": 281.6810125078782,
+  "margin": 74.79408918217149,
+  "elo_low": 217.61368014845607,
+  "elo_high": 367.20185851279905,
+  "los": 0.9999999999999761,
+  "a_as_white": {
+    "wins": 33,
+    "draws": 15,
+    "losses": 2
+  },
+  "a_as_black": {
+    "wins": 40,
+    "draws": 6,
+    "losses": 4
+  },
+  "terminations": {
+    "checkmate": 79,
+    "move_cap": 18,
+    "threefold_repetition": 3
+  },
+  "avg_plies": 114.62,
+  "engines": {
+    "a": {
+      "name": "nn-cache",
+      "depth": 2.95143807820141,
+      "nps": 23864.659885616697,
+      "evals_per_move": 6628.172055590907,
+      "network_calls_per_move": 4206.111234212618,
+      "cache_hit_rate": 0.35648838307249775
+    },
+    "b": {
+      "name": "material",
+      "depth": 3.99878817475444,
+      "nps": 60416.741498550444,
+      "evals_per_move": 17190.608488458765,
+      "network_calls_per_move": 0.0,
+      "cache_hit_rate": null
+    }
+  },
+  "settings": {
+    "engine_a": "nn-cache",
+    "engine_b": "material",
+    "time_limit": 0.5,
+    "max_plies": 200,
+    "early_stop": 1.0,
+    "openings": 50,
+    "nn_checkpoint": "models/nn_eval.pt",
+    "search": {
+      "time_limit": 1.0,
+      "max_depth": 64,
+      "quiescence": true,
+      "qsearch_max_depth": 8,
+      "check_interval": 16,
+      "early_stop_fraction": 1.0
+    },
+    "workers": 4
+  },
+  "elapsed_minutes_this_run": 4.2351666676646954e-05
+}

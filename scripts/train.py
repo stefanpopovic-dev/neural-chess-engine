@@ -39,7 +39,7 @@ from torch import nn  # noqa: E402
 from chess_engine.encoding import ENCODING_VERSION, NUM_PIECE_SQUARE, unpack  # noqa: E402
 from chess_engine.model import EvalMLP, save_checkpoint  # noqa: E402
 from chess_engine.reporting import write_json  # noqa: E402
-from config import RESULTS_DIR, get_config, resolve_path  # noqa: E402
+from config import RESULTS_DIR, ROOT, get_config, resolve_path  # noqa: E402
 
 
 def load_dataset(path: Path) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
@@ -242,7 +242,7 @@ def main() -> int:
         "train_loss_at_best": best["train_loss"],
         **baselines,
         "training_minutes": (time.perf_counter() - start) / 60,
-        "checkpoint": str(out_path.relative_to(resolve_path("."))) if out_path.is_relative_to(resolve_path(".")) else str(out_path),
+        "checkpoint": (out_path.relative_to(ROOT) if out_path.is_relative_to(ROOT) else out_path).as_posix(),
         "dataset_meta": meta,
     }
     write_json(results_dir / "train_metrics.json", metrics)
