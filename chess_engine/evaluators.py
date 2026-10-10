@@ -9,15 +9,22 @@ condition) via :func:`terminal_score`, then defers to the subclass's
 ``static_eval`` for ordinary positions. Wrappers such as a cache only ever wrap
 ``static_eval``, because rule-based scores depend on move history (repetitions,
 the fifty-move clock) and on the ply, which a position hash does not capture.
+
+Implementations:
+  MaterialEvaluator  hand-tuned piece values (the baseline)
+  NNEvaluator        PyTorch MLP trained on Stockfish evaluations
 """
 
 from __future__ import annotations
 
+import os
 from abc import ABC, abstractmethod
 
 import chess
+import numpy as np
 
-from config import Config, MaterialConfig, get_config
+from chess_engine.encoding import encode_board
+from config import Config, MaterialConfig, get_config, resolve_path
 
 MATE_SCORE = 100_000
 # Any score at least this large in magnitude is a forced mate. Mate scores are
@@ -124,7 +131,47 @@ class MaterialEvaluator(Evaluator):
         return score if board.turn == chess.WHITE else -score
 
 
-EVALUATOR_NAMES = ("material",)
+class NNEvaluator(Evaluator):
+    """PyTorch network evaluator: encodes the board, runs one forward pass in
+    inference mode and converts the win-probability logit back to centipawns."""
+
+    name = "nn"
+
+    def __init__(self, checkpoint: str | os.PathLike[str], max_cp: int = 2000, threads: int | None = 1) -> None:
+        super().__init__()
+        import torch  # imported lazily so material-only runs never load PyTorch
+
+        from chess_engine.encoding import NUM_FEATURES
+        from chess_engine.model import load_checkpoint
+
+        if threads:
+            torch.set_num_threads(threads)  # process-wide; one thread is fastest for batch size 1
+        self._torch = torch
+        self.model, self.meta = load_checkpoint(checkpoint)
+        self.cp_scale = float(self.meta["cp_scale"])
+        self.max_cp = max_cp
+        # Reused input buffer: the numpy array and the tensor share memory.
+        self._features = np.zeros((1, NUM_FEATURES), dtype=np.float32)
+        self._input = torch.from_numpy(self._features)
+        self.net_calls = 0
+
+    def static_eval(self, board: chess.Board) -> int:
+        self.net_calls += 1
+        encode_board(board, self._features[0])
+        with self._torch.inference_mode():
+            logit = self.model(self._input).item()
+        cp = round(logit * self.cp_scale)
+        return max(-self.max_cp, min(self.max_cp, cp))
+
+    def network_calls(self) -> int:
+        return self.net_calls
+
+    def reset_stats(self) -> None:
+        super().reset_stats()
+        self.net_calls = 0
+
+
+EVALUATOR_NAMES = ("material", "nn")
 
 
 def build_evaluator(name: str, cfg: Config | None = None) -> Evaluator:
@@ -132,4 +179,6 @@ def build_evaluator(name: str, cfg: Config | None = None) -> Evaluator:
     cfg = cfg or get_config()
     if name == "material":
         return MaterialEvaluator(cfg.material)
+    if name == "nn":
+        return NNEvaluator(resolve_path(cfg.nn.checkpoint), max_cp=cfg.nn.max_cp, threads=cfg.nn.torch_threads)
     raise ValueError(f"Unknown evaluator '{name}'; choose from {', '.join(EVALUATOR_NAMES)}")

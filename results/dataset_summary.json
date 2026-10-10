@@ -1,0 +1,36 @@
+{
+  "positions": 1000000,
+  "sampling": {
+    "games": 176190,
+    "params": {
+      "source": "lichess_db_standard_rated_2014-01.pgn.zst",
+      "skip_plies": 10,
+      "max_per_game": 6,
+      "skip_captures": true,
+      "seed": 0
+    },
+    "positions": 1000000
+  },
+  "labelling": {
+    "stockfish": "stockfish-windows-x86-64-universal.exe",
+    "depth": 10,
+    "mate_cp": 10000,
+    "clip_cp": 2000
+  },
+  "label_mean_cp": 62.189181,
+  "label_std_cp": 561.0377214622465,
+  "label_abs_quantiles_cp": {
+    "p25": 62.0,
+    "p50": 246.0,
+    "p75": 642.0,
+    "p90": 863.0,
+    "p99": 2000.0
+  },
+  "mate_scores": 21332,
+  "clipped_fraction": 0.021886,
+  "pieces_on_board": {
+    "26-32": 481925,
+    "13-25": 434699,
+    "2-12": 83376
+  }
+}

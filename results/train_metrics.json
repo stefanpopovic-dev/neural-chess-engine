@@ -1,0 +1,26 @@
+{
+  "positions": 1000000,
+  "train_positions": 950000,
+  "val_positions": 50000,
+  "parameters": 208449,
+  "hidden": [
+    256,
+    32
+  ],
+  "epochs_run": 27,
+  "best_epoch": 21,
+  "best_val_loss": 0.019848159828186034,
+  "best_val_mae_cp": 156.38014640625,
+  "train_loss_at_best": 0.01199366647139976,
+  "material_val_loss": 0.041732266545295715,
+  "material_val_mae_cp": 228.55177307128906,
+  "constant_val_loss": 0.11342908442020416,
+  "training_minutes": 1.8405502499999935,
+  "checkpoint": "models\\nn_eval.pt",
+  "dataset_meta": {
+    "stockfish": "stockfish-windows-x86-64-universal.exe",
+    "depth": 10,
+    "mate_cp": 10000,
+    "clip_cp": 2000
+  }
+}
