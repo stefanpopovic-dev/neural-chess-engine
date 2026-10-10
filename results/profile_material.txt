@@ -1,0 +1,77 @@
+Wall-clock attribution (no profiler): 371,312 nodes in 5.00s = 74,259 nodes/s, depth 5
+  time in evaluate():            26.7%  (5.7 us per call)
+  time in innermost static_eval   4.9%  (1.0 us per call)
+  rest of the search:            73.3%  (9.9 us per node)
+  nodes/s if evaluation were free: 101,363
+
+cProfile of a 5s search (material): depth 5, 171,392 nodes, 97,723 evals, 0 network calls, profiled total 4.94s
+
+Cumulative share of profiled time (inclusive of callees):
+  Evaluator.evaluate (rules + static eval)       30.4%
+    rules check (mate/draw detection)            23.3%
+  move generation (legal moves)                  43.1%
+  move generation (captures)                      0.2%
+  Board.push                                     18.6%
+  Board.pop                                       2.3%
+  move ordering                                   8.1%
+  draw detection in tree                          0.4%
+
+--- top 25 functions by tottime ---
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   374260    0.512    0.000    1.031    0.000 __init__.py:1819(generate_pseudo_legal_moves)
+   108314    0.440    0.000    0.920    0.000 __init__.py:2310(push)
+   332599    0.321    0.000    0.321    0.000 __init__.py:905(attackers_mask)
+   380364    0.279    0.000    2.132    0.000 __init__.py:3702(generate_legal_moves)
+  1589460    0.270    0.000    0.345    0.000 __init__.py:414(scan_reversed)
+    28576    0.243    0.000    0.400    0.000 search.py:374(_order_moves)
+    97723    0.213    0.000    0.302    0.000 evaluators.py:121(static_eval)
+69297/181    0.209    0.000    4.998    0.028 search.py:210(_negamax)
+102095/63078    0.153    0.000    3.264    0.000 search.py:242(_quiesce)
+   216631    0.142    0.000    0.184    0.000 __init__.py:1014(_remove_piece_at)
+   355349    0.140    0.000    0.429    0.000 __init__.py:3664(_is_safe)
+   126434    0.139    0.000    0.218    0.000 __init__.py:3645(_slider_blockers)
+   297227    0.119    0.000    0.119    0.000 __init__.py:875(attacks_mask)
+   644715    0.118    0.000    0.118    0.000 __init__.py:835(piece_type_at)
+  1217068    0.104    0.000    0.104    0.000 {method 'bit_length' of 'int' objects}
+   104071    0.098    0.000    0.129    0.000 __init__.py:3341(is_castling)
+   977230    0.089    0.000    0.089    0.000 {method 'bit_count' of 'int' objects}
+    97723    0.079    0.000    1.151    0.000 evaluators.py:54(terminal_score)
+   300320    0.063    0.000    0.092    0.000 __init__.py:411(msb)
+   108304    0.058    0.000    0.116    0.000 __init__.py:2431(pop)
+   102094    0.058    0.000    0.260    0.000 __init__.py:1906(checkers_mask)
+   108314    0.058    0.000    0.127    0.000 __init__.py:1052(_set_piece_at)
+   536118    0.055    0.000    0.055    0.000 {method 'append' of 'list' objects}
+   108314    0.053    0.000    0.067    0.000 __init__.py:3768(_from_chess960)
+    97723    0.052    0.000    1.505    0.000 evaluators.py:83(evaluate)
+
+
+
+--- top 25 functions by cumulative ---
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    5.000    5.000 search.py:122(search)
+        6    0.000    0.000    5.000    0.833 search.py:191(_search_root)
+69297/181    0.209    0.000    4.998    0.028 search.py:210(_negamax)
+102095/63078    0.153    0.000    3.264    0.000 search.py:242(_quiesce)
+   380364    0.279    0.000    2.132    0.000 __init__.py:3702(generate_legal_moves)
+    97723    0.030    0.000    1.535    0.000 search.py:289(_evaluate)
+    97723    0.052    0.000    1.505    0.000 evaluators.py:83(evaluate)
+    97723    0.079    0.000    1.151    0.000 evaluators.py:54(terminal_score)
+   374260    0.512    0.000    1.031    0.000 __init__.py:1819(generate_pseudo_legal_moves)
+    97723    0.043    0.000    0.955    0.000 {built-in method builtins.any}
+   108314    0.440    0.000    0.920    0.000 __init__.py:2310(push)
+    18002    0.033    0.000    0.575    0.000 search.py:324(_noisy_moves)
+   355349    0.140    0.000    0.429    0.000 __init__.py:3664(_is_safe)
+    28576    0.243    0.000    0.400    0.000 search.py:374(_order_moves)
+  1589460    0.270    0.000    0.345    0.000 __init__.py:414(scan_reversed)
+   332599    0.321    0.000    0.321    0.000 __init__.py:905(attackers_mask)
+    97723    0.213    0.000    0.302    0.000 evaluators.py:121(static_eval)
+   102094    0.031    0.000    0.291    0.000 __init__.py:1918(is_check)
+   102094    0.058    0.000    0.260    0.000 __init__.py:1906(checkers_mask)
+   126434    0.139    0.000    0.218    0.000 __init__.py:3645(_slider_blockers)
+   216631    0.142    0.000    0.184    0.000 __init__.py:1014(_remove_piece_at)
+   104071    0.035    0.000    0.133    0.000 __init__.py:925(is_attacked_by)
+   104071    0.098    0.000    0.129    0.000 __init__.py:3341(is_castling)
+   108314    0.058    0.000    0.127    0.000 __init__.py:1052(_set_piece_at)
+   297227    0.119    0.000    0.119    0.000 __init__.py:875(attacks_mask)
+
+

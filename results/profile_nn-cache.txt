@@ -1,0 +1,80 @@
+Wall-clock attribution (no profiler): 115,520 nodes in 5.00s = 23,103 nodes/s, depth 4
+  time in evaluate():            72.3%  (47.5 us per call)
+  time in innermost static_eval  54.4%  (50.8 us per call)
+  rest of the search:            27.7%  (12.0 us per node)
+  nodes/s if evaluation were free: 83,310
+
+cProfile of a 5s search (nn-cache): depth 4, 54,928 nodes, 39,055 evals, 29,107 network calls, profiled total 4.92s
+
+Cumulative share of profiled time (inclusive of callees):
+  Evaluator.evaluate (rules + static eval)       68.9%
+    rules check (mate/draw detection)             9.7%
+    cache key (Zobrist hash)                      8.4%
+    board -> features encoding                    9.8%
+    PyTorch forward pass                         29.5%
+  move generation (legal moves)                  21.8%
+  move generation (captures)                      0.2%
+  Board.push                                      8.4%
+  Board.pop                                       1.1%
+  move ordering                                   4.2%
+  draw detection in tree                          0.1%
+
+--- top 25 functions by tottime ---
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    87321    0.715    0.000    0.715    0.000 {built-in method torch._C._nn.linear}
+    39055    0.327    0.000    0.412    0.000 zobrist.py:27(zobrist_hash)
+   176227    0.268    0.000    0.564    0.000 __init__.py:1819(generate_pseudo_legal_moves)
+    44374    0.191    0.000    0.413    0.000 __init__.py:2310(push)
+    29107    0.163    0.000    0.483    0.000 encoding.py:81(encode_board)
+203749/29107    0.163    0.000    1.452    0.000 module.py:1787(_call_impl)
+   912264    0.147    0.000    0.186    0.000 __init__.py:414(scan_reversed)
+   181060    0.138    0.000    1.073    0.000 __init__.py:3702(generate_legal_moves)
+  1723244    0.136    0.000    0.136    0.000 {method 'bit_length' of 'int' objects}
+    18893    0.131    0.000    0.207    0.000 search.py:374(_order_moves)
+   134579    0.127    0.000    0.127    0.000 __init__.py:905(attackers_mask)
+203749/29107    0.112    0.000    1.472    0.000 module.py:1779(_wrapped_call_impl)
+    29107    0.106    0.000    0.653    0.000 grad_mode.py:290(__enter__)
+    58214    0.104    0.000    0.104    0.000 {built-in method torch.relu}
+    29107    0.101    0.000    0.252    0.000 encoding.py:40(_planes_and_extras)
+   208668    0.091    0.000    0.091    0.000 __init__.py:423(flip_vertical)
+    29107    0.091    0.000    1.286    0.000 container.py:254(forward)
+    29107    0.078    0.000    2.542    0.000 grad_mode.py:294(__exit__)
+   170974    0.077    0.000    0.077    0.000 __init__.py:875(attacks_mask)
+    88749    0.070    0.000    0.088    0.000 __init__.py:1014(_remove_piece_at)
+   163560    0.068    0.000    0.180    0.000 __init__.py:3664(_is_safe)
+    57965    0.067    0.000    0.094    0.000 __init__.py:3645(_slider_blockers)
+   303172    0.058    0.000    0.058    0.000 __init__.py:835(piece_type_at)
+   203749    0.057    0.000    0.057    0.000 {built-in method torch._C._get_tracing_state}
+    29107    0.053    0.000    2.975    0.000 evaluators.py:161(static_eval)
+
+
+
+--- top 25 functions by cumulative ---
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    39055    0.037    0.000    3.389    0.000 evaluators.py:83(evaluate)
+    39055    0.037    0.000    3.124    0.000 evaluators.py:197(static_eval)
+    29107    0.053    0.000    2.975    0.000 evaluators.py:161(static_eval)
+    29107    0.078    0.000    2.542    0.000 grad_mode.py:294(__exit__)
+203749/29107    0.112    0.000    1.472    0.000 module.py:1779(_wrapped_call_impl)
+203749/29107    0.163    0.000    1.452    0.000 module.py:1787(_call_impl)
+    29107    0.031    0.000    1.412    0.000 model.py:38(forward)
+    29107    0.091    0.000    1.286    0.000 container.py:254(forward)
+   181060    0.138    0.000    1.073    0.000 __init__.py:3702(generate_legal_moves)
+    87321    0.051    0.000    0.794    0.000 linear.py:130(forward)
+    87321    0.715    0.000    0.715    0.000 {built-in method torch._C._nn.linear}
+    29107    0.106    0.000    0.653    0.000 grad_mode.py:290(__enter__)
+   176227    0.268    0.000    0.564    0.000 __init__.py:1819(generate_pseudo_legal_moves)
+    29107    0.163    0.000    0.483    0.000 encoding.py:81(encode_board)
+    39055    0.036    0.000    0.477    0.000 evaluators.py:54(terminal_score)
+    13575    0.027    0.000    0.446    0.000 search.py:324(_noisy_moves)
+    44374    0.191    0.000    0.413    0.000 __init__.py:2310(push)
+    39055    0.327    0.000    0.412    0.000 zobrist.py:27(zobrist_hash)
+    39577    0.019    0.000    0.384    0.000 {built-in method builtins.any}
+    29107    0.101    0.000    0.252    0.000 encoding.py:40(_planes_and_extras)
+    18893    0.131    0.000    0.207    0.000 search.py:374(_order_moves)
+   912264    0.147    0.000    0.186    0.000 __init__.py:414(scan_reversed)
+   163560    0.068    0.000    0.180    0.000 __init__.py:3664(_is_safe)
+    58214    0.018    0.000    0.154    0.000 activation.py:139(forward)
+    41696    0.014    0.000    0.145    0.000 __init__.py:1918(is_check)
+
+

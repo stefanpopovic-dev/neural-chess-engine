@@ -13,17 +13,20 @@ the fifty-move clock) and on the ply, which a position hash does not capture.
 Implementations:
   MaterialEvaluator  hand-tuned piece values (the baseline)
   NNEvaluator        PyTorch MLP trained on Stockfish evaluations
+  CachedEvaluator    Zobrist-keyed LRU cache around any evaluator
 """
 
 from __future__ import annotations
 
 import os
 from abc import ABC, abstractmethod
+from collections import OrderedDict
 
 import chess
 import numpy as np
 
 from chess_engine.encoding import encode_board
+from chess_engine.zobrist import zobrist_hash
 from config import Config, MaterialConfig, get_config, resolve_path
 
 MATE_SCORE = 100_000
@@ -171,7 +174,74 @@ class NNEvaluator(Evaluator):
         self.net_calls = 0
 
 
-EVALUATOR_NAMES = ("material", "nn")
+class CachedEvaluator(Evaluator):
+    """Wraps any evaluator with a bounded LRU cache of static evaluations.
+
+    Keys are 64-bit Polyglot Zobrist hashes. Only the static evaluation is
+    cached: mate and draw scores depend on the ply and the move history, so the
+    rules check runs on every call. The cache persists across searches (moves)
+    until :meth:`new_game` clears it, so positions searched on the previous move
+    are free on the next one.
+    """
+
+    def __init__(self, inner: Evaluator, max_size: int = 500_000) -> None:
+        super().__init__()
+        if max_size < 1:
+            raise ValueError("max_size must be positive")
+        self.inner = inner
+        self.max_size = max_size
+        self.name = f"{inner.name}-cache"
+        self._cache: OrderedDict[int, int] = OrderedDict()
+        self.hits = self.misses = self.evictions = 0
+
+    def static_eval(self, board: chess.Board) -> int:
+        key = zobrist_hash(board)
+        cache = self._cache
+        value = cache.get(key)
+        if value is not None:
+            cache.move_to_end(key)
+            self.hits += 1
+            return value
+        self.misses += 1
+        value = self.inner.static_eval(board)
+        cache[key] = value
+        if len(cache) > self.max_size:
+            cache.popitem(last=False)
+            self.evictions += 1
+        return value
+
+    def __len__(self) -> int:
+        return len(self._cache)
+
+    @property
+    def hit_rate(self) -> float:
+        lookups = self.hits + self.misses
+        return self.hits / lookups if lookups else 0.0
+
+    def new_game(self) -> None:
+        self._cache.clear()
+        self.inner.new_game()
+
+    def network_calls(self) -> int:
+        return self.inner.network_calls()
+
+    def reset_stats(self) -> None:
+        super().reset_stats()
+        self.inner.reset_stats()
+        self.hits = self.misses = self.evictions = 0
+
+    def stats(self) -> dict[str, float]:
+        return {
+            **super().stats(),
+            "cache_hits": self.hits,
+            "cache_misses": self.misses,
+            "cache_evictions": self.evictions,
+            "cache_size": len(self._cache),
+            "cache_hit_rate": self.hit_rate,
+        }
+
+
+EVALUATOR_NAMES = ("material", "nn", "nn-cache")
 
 
 def build_evaluator(name: str, cfg: Config | None = None) -> Evaluator:
@@ -179,6 +249,7 @@ def build_evaluator(name: str, cfg: Config | None = None) -> Evaluator:
     cfg = cfg or get_config()
     if name == "material":
         return MaterialEvaluator(cfg.material)
-    if name == "nn":
-        return NNEvaluator(resolve_path(cfg.nn.checkpoint), max_cp=cfg.nn.max_cp, threads=cfg.nn.torch_threads)
+    if name in ("nn", "nn-cache"):
+        nn = NNEvaluator(resolve_path(cfg.nn.checkpoint), max_cp=cfg.nn.max_cp, threads=cfg.nn.torch_threads)
+        return CachedEvaluator(nn, cfg.cache.max_size) if name == "nn-cache" else nn
     raise ValueError(f"Unknown evaluator '{name}'; choose from {', '.join(EVALUATOR_NAMES)}")

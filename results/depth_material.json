@@ -13,51 +13,51 @@
   "summary": {
     "all": {
       "moves": 36,
-      "depth_mean": 5.194444444444445,
+      "depth_mean": 5.222222222222222,
       "depth_min": 3,
       "depth_max": 11,
-      "nps": 77705.5687088689,
-      "nodes_per_move": 77766.22222222222,
-      "evals_per_move": 43351.38888888889,
+      "nps": 80159.31341915594,
+      "nodes_per_move": 80169.33333333333,
+      "evals_per_move": 44598.333333333336,
       "network_calls_per_move": 0.0,
       "cache_hit_rate": null,
-      "time_per_move": 1.0007805555555556
+      "time_per_move": 1.000125
     },
     "opening": {
       "moves": 12,
       "depth_mean": 4.416666666666667,
-      "depth_min": 3,
+      "depth_min": 4,
       "depth_max": 5,
-      "nps": 87570.58475585881,
-      "nodes_per_move": 87594.66666666667,
-      "evals_per_move": 49407.416666666664,
+      "nps": 81748.4189739787,
+      "nodes_per_move": 81760.0,
+      "evals_per_move": 45996.0,
       "network_calls_per_move": 0.0,
       "cache_hit_rate": null,
-      "time_per_move": 1.000275
+      "time_per_move": 1.0001416666666667
     },
     "middlegame": {
       "moves": 12,
       "depth_mean": 4.0,
       "depth_min": 3,
       "depth_max": 5,
-      "nps": 68660.77814927559,
-      "nodes_per_move": 68794.66666666667,
-      "evals_per_move": 46467.25,
+      "nps": 74108.39277381508,
+      "nodes_per_move": 74113.33333333333,
+      "evals_per_move": 49656.666666666664,
       "network_calls_per_move": 0.0,
       "cache_hit_rate": null,
-      "time_per_move": 1.00195
+      "time_per_move": 1.0000666666666667
     },
     "endgame": {
       "moves": 12,
-      "depth_mean": 7.166666666666667,
+      "depth_mean": 7.25,
       "depth_min": 5,
       "depth_max": 11,
-      "nps": 76900.36162447714,
-      "nodes_per_move": 76909.33333333333,
-      "evals_per_move": 34179.5,
+      "nps": 84620.5632394601,
+      "nodes_per_move": 84634.66666666667,
+      "evals_per_move": 38142.333333333336,
       "network_calls_per_move": 0.0,
       "cache_hit_rate": null,
-      "time_per_move": 1.0001166666666668
+      "time_per_move": 1.0001666666666666
     }
   },
   "records": [
@@ -69,14 +69,14 @@
       "move": "g1h3",
       "score": 0,
       "depth": 5,
-      "nodes": 91856,
-      "qnodes": 48626,
-      "evals": 47143,
+      "nodes": 93408,
+      "qnodes": 49861,
+      "evals": 48213,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.001,
-      "nps": 91765.7
+      "time": 1.0003,
+      "nps": 93378.7
     },
     {
       "position": "start",
@@ -86,14 +86,14 @@
       "move": "g8h6",
       "score": 0,
       "depth": 5,
-      "nodes": 104128,
-      "qnodes": 54784,
-      "evals": 51946,
+      "nodes": 99088,
+      "qnodes": 51706,
+      "evals": 49415,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
       "time": 1.0002,
-      "nps": 104110.9
+      "nps": 99072.5
     },
     {
       "position": "start",
@@ -103,14 +103,14 @@
       "move": "h3g5",
       "score": 0,
       "depth": 5,
-      "nodes": 91136,
-      "qnodes": 49219,
-      "evals": 47450,
+      "nodes": 95440,
+      "qnodes": 52250,
+      "evals": 50166,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0006,
-      "nps": 91079.3
+      "time": 1.0,
+      "nps": 95437.8
     },
     {
       "position": "ruy_lopez",
@@ -120,14 +120,14 @@
       "move": "g8e7",
       "score": 0,
       "depth": 4,
-      "nodes": 57648,
-      "qnodes": 40265,
-      "evals": 35756,
+      "nodes": 40704,
+      "qnodes": 29795,
+      "evals": 25983,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 57646.9
+      "time": 1.0001,
+      "nps": 40700.3
     },
     {
       "position": "ruy_lopez",
@@ -137,14 +137,14 @@
       "move": "b5c4",
       "score": 0,
       "depth": 4,
-      "nodes": 98704,
-      "qnodes": 60254,
-      "evals": 56727,
+      "nodes": 73056,
+      "qnodes": 45790,
+      "evals": 42740,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0005,
-      "nps": 98651.3
+      "time": 1.0002,
+      "nps": 73042.8
     },
     {
       "position": "ruy_lopez",
@@ -153,15 +153,15 @@
       "fen": "r1bqkb1r/ppppnppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 5 4",
       "move": "a8b8",
       "score": 0,
-      "depth": 5,
-      "nodes": 91280,
-      "qnodes": 57674,
-      "evals": 51774,
+      "depth": 4,
+      "nodes": 64272,
+      "qnodes": 42336,
+      "evals": 37246,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0002,
-      "nps": 91260.7
+      "time": 1.0001,
+      "nps": 64267.9
     },
     {
       "position": "najdorf",
@@ -171,14 +171,14 @@
       "move": "d4f5",
       "score": 0,
       "depth": 4,
-      "nodes": 76896,
-      "qnodes": 55683,
-      "evals": 50963,
+      "nodes": 56992,
+      "qnodes": 39754,
+      "evals": 36593,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0002,
-      "nps": 76879.9
+      "time": 1.0001,
+      "nps": 56987.0
     },
     {
       "position": "najdorf",
@@ -187,15 +187,15 @@
       "fen": "rnbqkb1r/1p2pppp/p2p1n2/5N2/4P3/2N5/PPP2PPP/R1BQKB1R b KQkq - 1 6",
       "move": "f6e4",
       "score": 0,
-      "depth": 3,
-      "nodes": 61840,
-      "qnodes": 47094,
-      "evals": 42648,
+      "depth": 4,
+      "nodes": 64752,
+      "qnodes": 49372,
+      "evals": 44631,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0001,
-      "nps": 61836.4
+      "time": 1.0002,
+      "nps": 64742.2
     },
     {
       "position": "najdorf",
@@ -205,14 +205,14 @@
       "move": "f5g7",
       "score": 0,
       "depth": 4,
-      "nodes": 94912,
-      "qnodes": 60320,
-      "evals": 54667,
+      "nodes": 96336,
+      "qnodes": 61153,
+      "evals": 55432,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 94910.0
+      "time": 1.0001,
+      "nps": 96321.6
     },
     {
       "position": "qgd",
@@ -222,14 +222,14 @@
       "move": "c4d5",
       "score": 0,
       "depth": 5,
-      "nodes": 111904,
-      "qnodes": 62783,
-      "evals": 58643,
+      "nodes": 111600,
+      "qnodes": 62491,
+      "evals": 58428,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 111901.0
+      "time": 1.0001,
+      "nps": 111583.5
     },
     {
       "position": "qgd",
@@ -239,14 +239,14 @@
       "move": "e6d5",
       "score": 0,
       "depth": 5,
-      "nodes": 87712,
-      "qnodes": 52024,
-      "evals": 48301,
+      "nodes": 96480,
+      "qnodes": 57308,
+      "evals": 53089,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
       "time": 1.0002,
-      "nps": 87693.6
+      "nps": 96458.9
     },
     {
       "position": "qgd",
@@ -256,14 +256,14 @@
       "move": "d1a4",
       "score": 0,
       "depth": 4,
-      "nodes": 83120,
-      "qnodes": 52935,
-      "evals": 46871,
+      "nodes": 88992,
+      "qnodes": 56394,
+      "evals": 50016,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0003,
-      "nps": 83095.9
+      "time": 1.0001,
+      "nps": 88984.8
     },
     {
       "position": "ruy_lopez_closed",
@@ -273,14 +273,14 @@
       "move": "d4e5",
       "score": 0,
       "depth": 4,
-      "nodes": 68240,
-      "qnodes": 44628,
-      "evals": 42086,
+      "nodes": 99344,
+      "qnodes": 60812,
+      "evals": 57898,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0005,
-      "nps": 68203.4
+      "time": 1.0001,
+      "nps": 99334.6
     },
     {
       "position": "ruy_lopez_closed",
@@ -290,14 +290,14 @@
       "move": "d6e5",
       "score": 0,
       "depth": 4,
-      "nodes": 48992,
-      "qnodes": 39220,
-      "evals": 36240,
+      "nodes": 61520,
+      "qnodes": 49236,
+      "evals": 45596,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0006,
-      "nps": 48962.6
+      "time": 1.0001,
+      "nps": 61511.0
     },
     {
       "position": "ruy_lopez_closed",
@@ -307,14 +307,14 @@
       "move": "f3g5",
       "score": 0,
       "depth": 4,
-      "nodes": 59488,
-      "qnodes": 47732,
-      "evals": 43938,
+      "nodes": 63216,
+      "qnodes": 51156,
+      "evals": 46818,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0005,
-      "nps": 59455.5
+      "time": 1.0001,
+      "nps": 63212.8
     },
     {
       "position": "qgd_orthodox",
@@ -324,14 +324,14 @@
       "move": "g5e7",
       "score": 0,
       "depth": 4,
-      "nodes": 66304,
-      "qnodes": 40925,
-      "evals": 39252,
+      "nodes": 84224,
+      "qnodes": 50041,
+      "evals": 48281,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
       "time": 1.0,
-      "nps": 66301.5
+      "nps": 84220.2
     },
     {
       "position": "qgd_orthodox",
@@ -341,14 +341,14 @@
       "move": "d5e7",
       "score": 0,
       "depth": 4,
-      "nodes": 58896,
-      "qnodes": 41283,
-      "evals": 38137,
+      "nodes": 67392,
+      "qnodes": 47852,
+      "evals": 44089,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0202,
-      "nps": 57730.5
+      "time": 1.0,
+      "nps": 67391.2
     },
     {
       "position": "qgd_orthodox",
@@ -358,14 +358,14 @@
       "move": "c4d3",
       "score": 0,
       "depth": 4,
-      "nodes": 55920,
-      "qnodes": 36660,
-      "evals": 34396,
+      "nodes": 84016,
+      "qnodes": 51396,
+      "evals": 48811,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 55917.9
+      "time": 1.0001,
+      "nps": 84005.4
     },
     {
       "position": "najdorf_english_attack",
@@ -375,14 +375,14 @@
       "move": "c3d5",
       "score": 10,
       "depth": 4,
-      "nodes": 68768,
-      "qnodes": 52720,
-      "evals": 51972,
+      "nodes": 70112,
+      "qnodes": 53827,
+      "evals": 53017,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0003,
-      "nps": 68748.1
+      "time": 1.0,
+      "nps": 70110.0
     },
     {
       "position": "najdorf_english_attack",
@@ -392,14 +392,14 @@
       "move": "e6d5",
       "score": 0,
       "depth": 5,
-      "nodes": 82384,
-      "qnodes": 55949,
-      "evals": 54702,
+      "nodes": 78688,
+      "qnodes": 53064,
+      "evals": 51910,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0002,
-      "nps": 82364.3
+      "time": 1.0,
+      "nps": 78686.7
     },
     {
       "position": "najdorf_english_attack",
@@ -409,14 +409,14 @@
       "move": "e4d5",
       "score": 0,
       "depth": 4,
-      "nodes": 101792,
-      "qnodes": 64137,
-      "evals": 63023,
+      "nodes": 82976,
+      "qnodes": 54958,
+      "evals": 53850,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0001,
-      "nps": 101785.4
+      "time": 1.0,
+      "nps": 82974.9
     },
     {
       "position": "kings_indian",
@@ -426,14 +426,14 @@
       "move": "c3b5",
       "score": 0,
       "depth": 4,
-      "nodes": 102352,
-      "qnodes": 62343,
-      "evals": 61868,
+      "nodes": 84032,
+      "qnodes": 52637,
+      "evals": 52173,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0006,
-      "nps": 102286.3
+      "time": 1.0,
+      "nps": 84029.3
     },
     {
       "position": "kings_indian",
@@ -443,14 +443,14 @@
       "move": "d7b6",
       "score": 0,
       "depth": 4,
-      "nodes": 65536,
-      "qnodes": 54241,
-      "evals": 53311,
+      "nodes": 62320,
+      "qnodes": 51420,
+      "evals": 50492,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0003,
-      "nps": 65514.2
+      "time": 1.0002,
+      "nps": 62305.8
     },
     {
       "position": "kings_indian",
@@ -460,14 +460,14 @@
       "move": "b5c3",
       "score": 0,
       "depth": 3,
-      "nodes": 46864,
-      "qnodes": 39452,
-      "evals": 38682,
+      "nodes": 51520,
+      "qnodes": 43830,
+      "evals": 42945,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0001,
-      "nps": 46860.5
+      "time": 1.0002,
+      "nps": 51511.9
     },
     {
       "position": "lucena",
@@ -477,14 +477,14 @@
       "move": "c1c8",
       "score": 100,
       "depth": 6,
-      "nodes": 72576,
-      "qnodes": 42597,
-      "evals": 37082,
+      "nodes": 82656,
+      "qnodes": 47640,
+      "evals": 41533,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 72574.3
+      "time": 1.0001,
+      "nps": 82645.3
     },
     {
       "position": "lucena",
@@ -494,14 +494,14 @@
       "move": "d8e7",
       "score": -100,
       "depth": 7,
-      "nodes": 48832,
-      "qnodes": 28454,
-      "evals": 24915,
+      "nodes": 91024,
+      "qnodes": 50954,
+      "evals": 44565,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0003,
-      "nps": 48819.6
+      "time": 1.0004,
+      "nps": 90988.7
     },
     {
       "position": "lucena",
@@ -511,14 +511,14 @@
       "move": "c8c7",
       "score": 100,
       "depth": 6,
-      "nodes": 87984,
-      "qnodes": 49329,
-      "evals": 43088,
+      "nodes": 87824,
+      "qnodes": 49251,
+      "evals": 43021,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 87982.7
+      "time": 1.0001,
+      "nps": 87818.9
     },
     {
       "position": "rook_ending",
@@ -528,14 +528,14 @@
       "move": "d4d8",
       "score": 0,
       "depth": 5,
-      "nodes": 67728,
-      "qnodes": 35695,
-      "evals": 32086,
+      "nodes": 84608,
+      "qnodes": 46135,
+      "evals": 40701,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0001,
-      "nps": 67720.5
+      "time": 1.0002,
+      "nps": 84593.0
     },
     {
       "position": "rook_ending",
@@ -545,14 +545,14 @@
       "move": "g7h7",
       "score": 0,
       "depth": 5,
-      "nodes": 73216,
-      "qnodes": 39304,
-      "evals": 34868,
+      "nodes": 85728,
+      "qnodes": 46585,
+      "evals": 40935,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0002,
-      "nps": 73199.2
+      "time": 1.0001,
+      "nps": 85718.4
     },
     {
       "position": "rook_ending",
@@ -562,14 +562,14 @@
       "move": "d8f8",
       "score": 0,
       "depth": 5,
-      "nodes": 58816,
-      "qnodes": 32059,
-      "evals": 28317,
+      "nodes": 79856,
+      "qnodes": 44870,
+      "evals": 38859,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0001,
-      "nps": 58808.2
+      "time": 1.0002,
+      "nps": 79843.8
     },
     {
       "position": "pawn_race",
@@ -579,14 +579,14 @@
       "move": "f4f5",
       "score": 0,
       "depth": 7,
-      "nodes": 81392,
-      "qnodes": 40389,
-      "evals": 38534,
+      "nodes": 88320,
+      "qnodes": 43920,
+      "evals": 41782,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
       "time": 1.0001,
-      "nps": 81383.7
+      "nps": 88311.0
     },
     {
       "position": "pawn_race",
@@ -595,15 +595,15 @@
       "fen": "8/pp3k2/8/2P2K2/1P6/8/8/8 b - - 1 1",
       "move": "f7g8",
       "score": 0,
-      "depth": 7,
-      "nodes": 71904,
-      "qnodes": 33006,
-      "evals": 31665,
+      "depth": 8,
+      "nodes": 88752,
+      "qnodes": 39940,
+      "evals": 38226,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0,
-      "nps": 71901.5
+      "time": 1.0003,
+      "nps": 88723.8
     },
     {
       "position": "pawn_race",
@@ -613,14 +613,14 @@
       "move": "f5g6",
       "score": 0,
       "depth": 7,
-      "nodes": 79088,
-      "qnodes": 39409,
-      "evals": 37851,
+      "nodes": 82880,
+      "qnodes": 42162,
+      "evals": 40271,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0002,
-      "nps": 79075.8
+      "time": 1.0001,
+      "nps": 82873.1
     },
     {
       "position": "fine_70",
@@ -630,14 +630,14 @@
       "move": "a1b2",
       "score": 100,
       "depth": 11,
-      "nodes": 91232,
-      "qnodes": 33059,
-      "evals": 33059,
+      "nodes": 83024,
+      "qnodes": 30105,
+      "evals": 30105,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0002,
-      "nps": 91210.8
+      "time": 1.0001,
+      "nps": 83014.5
     },
     {
       "position": "fine_70",
@@ -647,14 +647,14 @@
       "move": "a7b8",
       "score": -100,
       "depth": 10,
-      "nodes": 94112,
-      "qnodes": 33977,
-      "evals": 33977,
+      "nodes": 78432,
+      "qnodes": 27696,
+      "evals": 27696,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
       "time": 1.0001,
-      "nps": 94103.4
+      "nps": 78426.7
     },
     {
       "position": "fine_70",
@@ -664,14 +664,14 @@
       "move": "b2c3",
       "score": 100,
       "depth": 10,
-      "nodes": 96032,
-      "qnodes": 34712,
-      "evals": 34712,
+      "nodes": 82512,
+      "qnodes": 30014,
+      "evals": 30014,
       "network_calls": 0,
       "cache_hits": 0,
       "cache_misses": 0,
-      "time": 1.0001,
-      "nps": 96022.4
+      "time": 1.0002,
+      "nps": 82496.5
     }
   ]
 }
