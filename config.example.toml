@@ -1,0 +1,19 @@
+# Copy this file to config.toml and adjust. Every key is optional except
+# [stockfish].path (needed only for building the dataset). Relative paths are
+# resolved against the project root. See config.py for all keys and defaults.
+
+[stockfish]
+path = "tools/stockfish/stockfish.exe"   # e.g. "/usr/local/bin/stockfish" on Linux/macOS
+# depth = 10
+# workers = 7
+
+# [search]
+# time_limit = 1.0
+# quiescence = true
+
+# [dataset]
+# target_positions = 1000000
+
+# [match]
+# games = 100
+# time_limit = 0.5

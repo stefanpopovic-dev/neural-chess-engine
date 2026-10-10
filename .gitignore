@@ -1,0 +1,17 @@
+# Environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Raw and processed data (large, reproducible with scripts/build_dataset.py)
+data/
+
+# Third-party binaries and machine-specific settings
+tools/
+config.toml
+
+# Temporary files
+*.tmp
+results/*.prof
