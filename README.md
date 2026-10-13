@@ -7,6 +7,8 @@ Lichess games. A Zobrist-keyed LRU evaluation cache recovers part of the
 network's speed cost, and a self-play match measures which evaluator plays
 better at a fixed time per move.
 
+**Live demo: [neural-chess-engine.vercel.app](https://neural-chess-engine.vercel.app)**. Play against the engine in your browser.
+
 **Results at a glance** (details in [Results](#results); every number comes from a file in `results/`):
 
 * The network predicts Stockfish evaluations far better than a material count:
@@ -162,6 +164,8 @@ Enter moves as `e4`, `Nf3`, `O-O`, `exd5`, `e8=Q` (or UCI `e2e4`). Commands:
 `moves`, `undo`, `hint`, `flip`, `resign`, `quit`. The game's PGN is printed at the end.
 
 ## Web demo
+
+Live at **https://neural-chess-engine.vercel.app**, deployed from this repository's `main` branch.
 
 The page is static (`public/`). The board, move input and rules run in the
 browser with chess.js. Each engine move is a `POST /api/move` to a Vercel
