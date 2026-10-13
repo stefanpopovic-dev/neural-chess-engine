@@ -18,6 +18,3 @@ results/*.prof
 
 # Quick-mode match output (smoke tests)
 results/match_quick/
-
-# Vercel CLI project link
-.vercel/

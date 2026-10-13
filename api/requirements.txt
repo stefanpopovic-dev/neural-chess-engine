@@ -1,4 +1,0 @@
-# Runtime dependencies of the Vercel function (api/move.py). PyTorch is not
-# needed: the network runs with numpy from models/nn_eval.npz.
-chess==1.11.2
-numpy==2.5.3

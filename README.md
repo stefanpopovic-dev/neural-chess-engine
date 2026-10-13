@@ -7,8 +7,6 @@ Lichess games. A Zobrist-keyed LRU evaluation cache recovers part of the
 network's speed cost, and a self-play match measures which evaluator plays
 better at a fixed time per move.
 
-**Live demo: [neural-chess-engine.vercel.app](https://neural-chess-engine.vercel.app)**. Play against the engine in your browser.
-
 **Results at a glance** (details in [Results](#results); every number comes from a file in `results/`):
 
 * The network predicts Stockfish evaluations far better than a material count:
@@ -43,15 +41,10 @@ scripts/
   profile_search.py  where does search time go? (wall-clock timers + cProfile)
   match.py           self-play match with an Elo estimate
   play.py            play against the engine in the terminal
-  export_weights.py  export the network to numpy (models/nn_eval.npz) for the web demo
-  serve_demo.py      run the web demo locally
-api/
-  move.py            Vercel serverless function: the engine's reply to a position
-public/              web demo: board UI (index.html, app.js, style.css, pieces/)
 data/       raw and processed data (gitignored)
-models/     trained checkpoint (nn_eval.pt) and its numpy export (nn_eval.npz)
+models/     trained checkpoints (models/nn_eval.pt)
 results/    metrics, profiles, PGNs, plots
-tests/      pytest suite (105 tests)
+tests/      pytest suite (89 tests)
 config.py   every default; overridden by config.toml, then by command-line flags
 ```
 
@@ -162,35 +155,6 @@ python scripts/play.py --engine material        # the material baseline instead
 
 Enter moves as `e4`, `Nf3`, `O-O`, `exd5`, `e8=Q` (or UCI `e2e4`). Commands:
 `moves`, `undo`, `hint`, `flip`, `resign`, `quit`. The game's PGN is printed at the end.
-
-## Web demo
-
-Live at **https://neural-chess-engine.vercel.app**, deployed from this repository's `main` branch.
-
-The page is static (`public/`). The board, move input and rules run in the
-browser with chess.js. Each engine move is a `POST /api/move` to a Vercel
-Python function (`api/move.py`) that runs the same search code. PyTorch is far
-too large for a serverless function, so the function uses `NumpyNNEvaluator`.
-It's the same trained network, exported by `scripts/export_weights.py` and
-evaluated with numpy. The export gives identical scores (0 cp difference over
-500 random positions). It is also faster: 14.6 µs per evaluation vs 33.3 µs
-with PyTorch, because the first layer only sums the weight columns of the
-~30 active inputs.
-
-Run it locally:
-
-```bash
-python scripts/export_weights.py   # only needed after retraining
-python scripts/serve_demo.py       # http://localhost:8000
-```
-
-Deployment: the repository root is the Vercel project (framework preset
-"Other", no build command). `vercel.json` configures the function,
-`api/requirements.txt` lists its only dependencies (python-chess and numpy),
-`.python-version` selects Python 3.13, and `.vercelignore` leaves out training
-data, results and the PyTorch requirements. A link like
-`/#fen=6k1/5ppp/8/8/8/8/5PPP/3R2K1_w_-_-_0_1` starts the board from any
-position (`_` stands for spaces).
 
 ## Reproducing each phase
 

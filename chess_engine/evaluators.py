@@ -13,7 +13,6 @@ the fifty-move clock) and on the ply, which a position hash does not capture.
 Implementations:
   MaterialEvaluator  hand-tuned piece values (the baseline)
   NNEvaluator        PyTorch MLP trained on Stockfish evaluations
-  NumpyNNEvaluator   the same network run with numpy only (no PyTorch needed)
   CachedEvaluator    Zobrist-keyed LRU cache around any evaluator
 """
 
@@ -22,7 +21,6 @@ from __future__ import annotations
 import os
 from abc import ABC, abstractmethod
 from collections import OrderedDict
-from pathlib import Path
 
 import chess
 import numpy as np
@@ -136,35 +134,14 @@ class MaterialEvaluator(Evaluator):
         return score if board.turn == chess.WHITE else -score
 
 
-class _NetworkEvaluator(Evaluator):
-    """Shared plumbing for the network evaluators: counting forward passes and
-    converting the win-probability logit back to clipped centipawns."""
-
-    def __init__(self, cp_scale: float, max_cp: int) -> None:
-        super().__init__()
-        self.cp_scale = cp_scale
-        self.max_cp = max_cp
-        self.net_calls = 0
-
-    def _to_cp(self, logit: float) -> int:
-        cp = round(logit * self.cp_scale)
-        return max(-self.max_cp, min(self.max_cp, cp))
-
-    def network_calls(self) -> int:
-        return self.net_calls
-
-    def reset_stats(self) -> None:
-        super().reset_stats()
-        self.net_calls = 0
-
-
-class NNEvaluator(_NetworkEvaluator):
+class NNEvaluator(Evaluator):
     """PyTorch network evaluator: encodes the board, runs one forward pass in
     inference mode and converts the win-probability logit back to centipawns."""
 
     name = "nn"
 
     def __init__(self, checkpoint: str | os.PathLike[str], max_cp: int = 2000, threads: int | None = 1) -> None:
+        super().__init__()
         import torch  # imported lazily so material-only runs never load PyTorch
 
         from chess_engine.encoding import NUM_FEATURES
@@ -174,58 +151,27 @@ class NNEvaluator(_NetworkEvaluator):
             torch.set_num_threads(threads)  # process-wide; one thread is fastest for batch size 1
         self._torch = torch
         self.model, self.meta = load_checkpoint(checkpoint)
-        super().__init__(float(self.meta["cp_scale"]), max_cp)
+        self.cp_scale = float(self.meta["cp_scale"])
+        self.max_cp = max_cp
         # Reused input buffer: the numpy array and the tensor share memory.
         self._features = np.zeros((1, NUM_FEATURES), dtype=np.float32)
         self._input = torch.from_numpy(self._features)
+        self.net_calls = 0
 
     def static_eval(self, board: chess.Board) -> int:
         self.net_calls += 1
         encode_board(board, self._features[0])
         with self._torch.inference_mode():
             logit = self.model(self._input).item()
-        return self._to_cp(logit)
+        cp = round(logit * self.cp_scale)
+        return max(-self.max_cp, min(self.max_cp, cp))
 
+    def network_calls(self) -> int:
+        return self.net_calls
 
-class NumpyNNEvaluator(_NetworkEvaluator):
-    """The same network as :class:`NNEvaluator`, evaluated with numpy alone.
-
-    Weights come from the ``.npz`` file written by ``scripts/export_weights.py``.
-    The inputs are all 0 or 1, so the first layer is the sum of the weight
-    columns of the ~30 active features rather than a full 781-wide matrix
-    product. Without PyTorch's per-call overhead this is about 3x faster for a
-    single position, and it needs no PyTorch install (the web demo uses it).
-    """
-
-    name = "nn-numpy"
-
-    def __init__(self, weights: str | os.PathLike[str], max_cp: int = 2000) -> None:
-        from chess_engine.encoding import ENCODING_VERSION, NUM_FEATURES
-
-        path = Path(weights)
-        if not path.is_file():
-            raise FileNotFoundError(
-                f"No exported weights at '{path}'. Create them with: python scripts/export_weights.py"
-            )
-        with np.load(path) as data:
-            if int(data["encoding_version"]) != ENCODING_VERSION:
-                raise ValueError(f"'{path}' uses encoding version {int(data['encoding_version'])}, "
-                                 f"but the code expects {ENCODING_VERSION}; re-export the weights.")
-            layers = int(data["num_layers"])
-            super().__init__(float(data["cp_scale"]), max_cp)
-            # First layer stored transposed: one row of output weights per input feature.
-            self._first_rows = np.ascontiguousarray(data["w0"].T)
-            self._first_bias = data["b0"]
-            self._layers = [(data[f"w{i}"], data[f"b{i}"]) for i in range(1, layers)]
-        self._features = np.zeros(NUM_FEATURES, dtype=np.float32)
-
-    def static_eval(self, board: chess.Board) -> int:
-        self.net_calls += 1
-        active = np.flatnonzero(encode_board(board, self._features))
-        hidden = self._first_bias + self._first_rows[active].sum(axis=0)
-        for weight, bias in self._layers:
-            hidden = weight @ np.maximum(hidden, 0.0) + bias  # ReLU, then the next layer
-        return self._to_cp(float(hidden[0]))
+    def reset_stats(self) -> None:
+        super().reset_stats()
+        self.net_calls = 0
 
 
 class CachedEvaluator(Evaluator):
@@ -295,7 +241,7 @@ class CachedEvaluator(Evaluator):
         }
 
 
-EVALUATOR_NAMES = ("material", "nn", "nn-cache", "nn-numpy", "nn-numpy-cache")
+EVALUATOR_NAMES = ("material", "nn", "nn-cache")
 
 
 def build_evaluator(name: str, cfg: Config | None = None) -> Evaluator:
@@ -303,11 +249,7 @@ def build_evaluator(name: str, cfg: Config | None = None) -> Evaluator:
     cfg = cfg or get_config()
     if name == "material":
         return MaterialEvaluator(cfg.material)
-    network: Evaluator
     if name in ("nn", "nn-cache"):
-        network = NNEvaluator(resolve_path(cfg.nn.checkpoint), max_cp=cfg.nn.max_cp, threads=cfg.nn.torch_threads)
-    elif name in ("nn-numpy", "nn-numpy-cache"):
-        network = NumpyNNEvaluator(resolve_path(cfg.nn.weights), max_cp=cfg.nn.max_cp)
-    else:
-        raise ValueError(f"Unknown evaluator '{name}'; choose from {', '.join(EVALUATOR_NAMES)}")
-    return CachedEvaluator(network, cfg.cache.max_size) if name.endswith("-cache") else network
+        nn = NNEvaluator(resolve_path(cfg.nn.checkpoint), max_cp=cfg.nn.max_cp, threads=cfg.nn.torch_threads)
+        return CachedEvaluator(nn, cfg.cache.max_size) if name == "nn-cache" else nn
+    raise ValueError(f"Unknown evaluator '{name}'; choose from {', '.join(EVALUATOR_NAMES)}")

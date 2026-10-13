@@ -62,7 +62,6 @@ class NNConfig:
     """Neural-network evaluator: architecture, output scaling and inference."""
 
     checkpoint: str = "models/nn_eval.pt"
-    weights: str = "models/nn_eval.npz"  # numpy export of the checkpoint (scripts/export_weights.py)
     hidden: list[int] = field(default_factory=lambda: [256, 32])
     # Centipawn <-> win-probability scale: p = sigmoid(cp / cp_scale).
     # 400 / ln(10) makes this the Elo logistic curve, p = 1 / (1 + 10^(-cp/400)).
