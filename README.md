@@ -40,10 +40,11 @@ scripts/
   depth_benchmark.py depth / nodes per second / evaluations per move at a fixed time per move
   profile_search.py  where does search time go? (wall-clock timers + cProfile)
   match.py           self-play match with an Elo estimate
+  play.py            play against the engine in the terminal
 data/       raw and processed data (gitignored)
 models/     trained checkpoints (models/nn_eval.pt)
 results/    metrics, profiles, PGNs, plots
-tests/      pytest suite (87 tests)
+tests/      pytest suite (89 tests)
 config.py   every default; overridden by config.toml, then by command-line flags
 ```
 
@@ -143,6 +144,17 @@ Every parameter in `config.py` can be overridden in a `config.toml` section
 (`[search]`, `[material]`, `[nn]`, `[cache]`, `[stockfish]`, `[dataset]`,
 `[train]`, `[benchmark]`, `[match]`). Unknown keys are rejected, and
 command-line flags take precedence.
+
+## Play against it
+
+```bash
+python scripts/play.py                          # you are White vs. NN + cache at 1 s/move
+python scripts/play.py --color black --time 3   # stronger: more time per move
+python scripts/play.py --engine material        # the material baseline instead
+```
+
+Enter moves as `e4`, `Nf3`, `O-O`, `exd5`, `e8=Q` (or UCI `e2e4`). Commands:
+`moves`, `undo`, `hint`, `flip`, `resign`, `quit`. The game's PGN is printed at the end.
 
 ## Reproducing each phase
 
