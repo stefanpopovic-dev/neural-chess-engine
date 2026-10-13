@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neural Chess Engine</title>
+  <meta name="description" content="Play a Python alpha-beta chess engine whose evaluation is a small neural network trained on one million Stockfish-labelled positions.">
+  <link rel="icon" href="pieces/wN.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="pieces/wN.svg" alt="" class="logo">
+      <div>
+        <h1>Neural Chess Engine</h1>
+        <p class="tagline">Alpha-beta search in Python, judging positions with a network trained on Stockfish's evaluations</p>
+      </div>
+    </div>
+    <a class="source-link" id="source-link" href="https://github.com/achilles-000/neural-chess-engine">Source on GitHub</a>
+  </header>
+
+  <main class="layout">
+    <section class="board-area" aria-label="Game">
+      <div class="player-bar" id="player-top"></div>
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Chess board"></div>
+        <div id="promotion" class="promotion" hidden></div>
+      </div>
+      <div class="player-bar" id="player-bottom"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="card status-card">
+        <div class="status" id="status" aria-live="polite">Loading…</div>
+        <button class="btn retry" id="retry" hidden>Try again</button>
+        <div class="eval" title="Engine's evaluation from White's point of view">
+          <span class="eval-label">Eval</span>
+          <div class="eval-bar"><div class="eval-fill" id="eval-fill"></div></div>
+          <span class="eval-text" id="eval-text">–</span>
+        </div>
+        <dl class="stats">
+          <div><dt>Depth</dt><dd id="stat-depth">–</dd></div>
+          <div><dt>Positions/sec</dt><dd id="stat-nps">–</dd></div>
+          <div><dt>Searched</dt><dd id="stat-nodes">–</dd></div>
+        </dl>
+        <p class="pv"><span class="muted">Expected line:</span> <span id="pv">–</span></p>
+      </div>
+
+      <div class="card controls">
+        <div class="row">
+          <button class="btn primary" id="new-white">New game as White</button>
+          <button class="btn" id="new-black">New game as Black</button>
+        </div>
+        <div class="row">
+          <label class="field">Opponent
+            <select id="engine">
+              <option value="nn" selected>Neural network</option>
+              <option value="material">Material count only</option>
+            </select>
+          </label>
+          <label class="field">Think time
+            <select id="think">
+              <option value="0.5">0.5 s</option>
+              <option value="1" selected>1 s</option>
+              <option value="2">2 s</option>
+              <option value="3">3 s</option>
+            </select>
+          </label>
+        </div>
+        <div class="row">
+          <button class="btn" id="undo">Take back</button>
+          <button class="btn" id="flip">Flip board</button>
+        </div>
+      </div>
+
+      <div class="card moves-card">
+        <h2>Moves</h2>
+        <ol class="moves" id="moves"></ol>
+        <p class="muted empty" id="moves-empty">No moves yet. Drag a piece, or click it and then a highlighted square.</p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="about">
+    <h2>How it works</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Search</h3>
+        <p>Negamax alpha-beta with iterative deepening, a quiescence search over captures, and move ordering by
+          previous best move, MVV-LVA captures and checks, all built on python-chess. It plays the best move
+          from the last depth it fully finishes before the time runs out.</p>
+      </article>
+      <article class="card">
+        <h3>Evaluation network</h3>
+        <p>A 781&nbsp;→&nbsp;256&nbsp;→&nbsp;32&nbsp;→&nbsp;1 network trained in PyTorch on one million positions from
+          Lichess games, each scored by Stockfish&nbsp;19. Here it runs with numpy inside a Vercel serverless
+          function, with a Zobrist-keyed cache of evaluations.</p>
+      </article>
+      <article class="card">
+        <h3>Results</h3>
+        <p>Against the same search judging by material count, the network version scored
+          <strong>+73 =21 −6</strong> (about <strong>+280 Elo</strong>) over 100 games, despite searching
+          a ply shallower. Both are still far weaker than a real engine like Stockfish.</p>
+      </article>
+    </div>
+    <p class="credits muted">Pieces by Colin M.L. Burnett (BSD licence) · Move rules in the browser by chess.js</p>
+  </section>
+</body>
+</html>

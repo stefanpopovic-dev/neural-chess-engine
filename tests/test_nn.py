@@ -76,3 +76,34 @@ def test_search_with_nn_returns_legal_move(checkpoint: Path) -> None:
     result = Searcher(NNEvaluator(checkpoint)).search(board, time_limit=0.2)
     assert result.best_move in board.legal_moves
     assert result.network_calls > 0
+
+
+def test_numpy_evaluator_matches_pytorch(checkpoint: Path, tmp_path: Path) -> None:
+    import random
+    import sys
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    from export_weights import export
+
+    from chess_engine.evaluators import NumpyNNEvaluator
+
+    weights = tmp_path / "net.npz"
+    export(checkpoint, weights)
+    torch_eval, numpy_eval = NNEvaluator(checkpoint, max_cp=5000), NumpyNNEvaluator(weights, max_cp=5000)
+    rng = random.Random(4)
+    for _ in range(100):
+        board = chess.Board()
+        for _ in range(rng.randint(0, 60)):
+            moves = list(board.legal_moves)
+            if not moves:
+                break
+            board.push(rng.choice(moves))
+        assert abs(torch_eval.static_eval(board) - numpy_eval.static_eval(board)) <= 1
+    assert numpy_eval.network_calls() == 100
+
+
+def test_numpy_evaluator_missing_weights(tmp_path: Path) -> None:
+    from chess_engine.evaluators import NumpyNNEvaluator
+
+    with pytest.raises(FileNotFoundError, match="export_weights.py"):
+        NumpyNNEvaluator(tmp_path / "missing.npz")
